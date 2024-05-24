@@ -54,4 +54,46 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+
+
+    //Relaciones de amistad
+    /**
+     * The from that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function from()
+    {
+        return $this->belongsToMany(User::class, 'friends', 'from_id', 'to_id');
+    }
+
+    /**
+     * The 'to' that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function to()
+    {
+        return $this->belongsToMany(User::class, 'friends', 'to_id', 'from_id');
+    }
+
+    /**
+     * The friendsFrom that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function friendsFrom()
+    {
+        return $this->from()->wherePivot('accepted',true);
+    }
+
+    /**
+     * The friendsTo that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function friendsTo()
+    {
+        return $this->to()->wherePivot('accepted',true);
+    }
 }

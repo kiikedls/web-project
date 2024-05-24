@@ -20,9 +20,21 @@ class PageController extends Controller
         //este pequeño bloque hace una condicion si esta en solo for my devuelve 
         //los post solo del usuario logeado, si no devuelve todos los que haya
         if ($req->get('for-my')) {
+            //aqui saca el id propio de usuario
+            $user = $req->user();
+
+            //id de los usuarios que son mis amigos
+            $friends_from_id = $user->friendsFrom()->pluck('users.id');
+            //id de los usuarios de los que soy su amigo
+            $friends_to_id   = $user->friendsTo()->pluck('users.id');
+            //merge de los tres
+            $users_ids=$friends_from_id->merge($friends_to_id)->push($user->id);
+
             //$posts=Post::where('user_id', $req->user()->id)->latest()->get();
             //esta es una manera mas directa de hacer lo mismo que la linea de arriba
-            $posts=$req->user()->posts()->latest()->get();
+            //$posts=$req->user()->posts()->latest()->get();
+            //esta linea hace un where en el modelo de posts de los ids
+            $posts=Post::whereIn('user_id',$users_ids)->latest()->get();
         } else {
             $posts=Post::latest()->get();
         }
