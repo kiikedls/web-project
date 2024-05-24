@@ -1,6 +1,21 @@
 <x-app-layout>
     <x-container>
 
+        <form action="{{route('posts.store')}}" method="POST">
+            @csrf
+            <textarea 
+                name="body" 
+                rows="2" 
+                class="w-full mb-2 p-0 text-white bg-transparent border-0 border-b-2 border-slate-800 focus:border-b-slate-700 focus:ring-0 resize-none"
+                placeholder="Your comment..."
+                ></textarea>
+
+            <input 
+                type="submit"
+                class="px-4 py-2 bg-yellow-400 text-gray-800 font-semibold sm:rounded-lg text-xs"
+            >
+        </form>
+
         @foreach ($posts as $post)
             <a href="" class="px-6 mb-2 flex items-center gap-2 font-medium text-slate-100">
                 <svg class="h-4" data-slot="icon" aria-hidden="true" fill="currentColor" viewBox="0 0 16 16"

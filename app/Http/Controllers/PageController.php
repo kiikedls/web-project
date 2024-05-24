@@ -22,7 +22,7 @@ class PageController extends Controller
         if ($req->get('for-my')) {
             //$posts=Post::where('user_id', $req->user()->id)->latest()->get();
             //esta es una manera mas directa de hacer lo mismo que la linea de arriba
-            $posts=$req->user()->posts;
+            $posts=$req->user()->posts()->latest()->get();
         } else {
             $posts=Post::latest()->get();
         }
