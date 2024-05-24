@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-container>
 
-        <form action="{{route('posts.store')}}" method="POST">
+        <form action="{{route('posts.store')}}" class="px-4 mb-8" method="POST">
             @csrf
             <textarea 
                 name="body" 
@@ -17,7 +17,7 @@
         </form>
 
         @foreach ($posts as $post)
-            <a href="" class="px-6 mb-2 flex items-center gap-2 font-medium text-slate-100">
+            <a href="{{ route('profile.show', $post->user) }}" class="px-6 mb-2 flex items-center gap-2 font-medium text-slate-100">
                 <svg class="h-4" data-slot="icon" aria-hidden="true" fill="currentColor" viewBox="0 0 16 16"
                     xmlns="http://www.w3.org/2000/svg">
                     <path
