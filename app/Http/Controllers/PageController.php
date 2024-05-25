@@ -24,20 +24,29 @@ class PageController extends Controller
             //aqui saca el id propio de usuario
             $user = $req->user();
 
+            /*
             //id de los usuarios que son mis amigos
             $friends_from_id = $user->friendsFrom()->pluck('users.id');
             //id de los usuarios de los que soy su amigo
             $friends_to_id   = $user->friendsTo()->pluck('users.id');
             //merge de los tres
             $users_ids=$friends_from_id->merge($friends_to_id)->push($user->id);
+            */
+
+            //codigo optimizado
+            $users_ids=$user->friends()->pluck('id')->push($user->id);
 
             //$posts=Post::where('user_id', $req->user()->id)->latest()->get();
             //esta es una manera mas directa de hacer lo mismo que la linea de arriba
             //$posts=$req->user()->posts()->latest()->get();
             //esta linea hace un where en el modelo de posts de los ids
-            $posts=Post::whereIn('user_id',$users_ids)->latest()->get();
+            //$posts=Post::whereIn('user_id',$users_ids)->latest()->get();
+            //codigo optimizado
+            $posts=Post::whereIn('user_id',$users_ids)->latest()->with('user')->get();
         } else {
-            $posts=Post::latest()->get();
+            //$posts=Post::latest()->get();
+            //codigo optimizado
+            $posts=Post::latest()->with('user')->get();
         }
         
         
