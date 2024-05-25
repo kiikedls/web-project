@@ -77,6 +77,12 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'friends', 'to_id', 'from_id');
     }
 
+    //amistad: union entre las solicitudes enviadas y recibidas aceptadas
+    public function friends(){
+        return $this->friendsFrom->merge($this->friendsTo);
+    }
+
+    //solicitudes aceptadas 
     /**
      * The friendsFrom that belong to the User
      *

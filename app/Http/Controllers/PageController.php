@@ -54,7 +54,8 @@ class PageController extends Controller
     public function status(Request $req) {
         $requests = $req->user()->pendingTo;
         $sent     = $req->user()->pendingFrom;
+        $friends  = $req->user()->friends();
 
-        return view('status', compact('requests','sent'));
+        return view('status', compact('requests','sent', 'friends'));
     }
 }
