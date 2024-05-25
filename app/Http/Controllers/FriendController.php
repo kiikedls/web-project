@@ -38,4 +38,26 @@ class FriendController extends Controller
 
         return back();
     }
+
+    public function update(Request $req, User $user) {
+
+        //este dd nos puede servir para revizar el id del usuario que nos envio solicitud
+        //y luego saber las ids de ususarios en las solicitudes pendientes de nuestro usuario
+        //y asi saber si coinciden
+        /*dd(
+            $user->id,
+            $req->user()->pendingTo
+        );*/
+
+        //esta es la manera mas rapida de hacer el update, con una consulta directa
+        /*$req->user()->pendingTo()->where('from_id', $user->id)->update([
+            'accepted'=>true,
+        ]);*/
+
+        //tambien es mas directo usar un metodo propio del fraework
+        $req->user()->pendingTo()->updateExistingPivot($user, ['accepted'=>true]);
+
+
+        return back();
+    }
 }
