@@ -50,4 +50,11 @@ class PageController extends Controller
 
         return view('profile', compact('user','posts'));
     }
+
+    public function status(Request $req) {
+        $requests = $req->user()->pendingTo;
+        $sent     = $req->user()->pendingFrom;
+
+        return view('status', compact('requests','sent'));
+    }
 }

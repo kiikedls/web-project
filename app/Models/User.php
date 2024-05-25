@@ -96,4 +96,25 @@ class User extends Authenticatable
     {
         return $this->to()->wherePivot('accepted',true);
     }
+
+    //solicitudes pendientes
+    /**
+     * The friendsFrom that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function pendingFrom()
+    {
+        return $this->from()->wherePivot('accepted',false);
+    }
+
+    /**
+     * The friendsTo that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function pendingTo()
+    {
+        return $this->to()->wherePivot('accepted',false);
+    }
 }
